@@ -34,7 +34,12 @@ app.get('/api/', function (req, res) {
 app.get('/api/:date', function (req, res) {
   process.env.TZ = 'Etc/UTC';
   const dateStr = req.params.date;
-  const date = new Date(dateStr);
+  let date;
+  if (parseInt(dateStr).toString() == dateStr) {
+    date = new Date(parseInt(dateStr));
+  } else {
+    date = new Date(dateStr);
+  }
   const unix = date.valueOf();
   const utc = date.toUTCString();
   if (unix) res.json({unix, utc})
